@@ -6,7 +6,8 @@
     "require": {
         "php": ">=8.0",
         "spryker/merchant": "*",
-        "spryker/state-machine": "*"
+        "spryker/state-machine": "*",
+        "spryker/kernel": "*"
     },
     "require-dev": {
         "spryker/code-sniffer": "*"
