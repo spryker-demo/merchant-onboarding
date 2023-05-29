@@ -5,12 +5,12 @@
     "license": "proprietary",
     "require": {
         "php": ">=8.0",
-        "spryker/merchant": "*",
-        "spryker/state-machine": "*",
-        "spryker/kernel": "*"
+        "spryker/merchant": "^3.5.1",
+        "spryker/state-machine": "^2.16.1",
+        "spryker/kernel": "^3.70.0"
     },
     "require-dev": {
-        "spryker/code-sniffer": "*"
+        "spryker/code-sniffer": "^0.17.18"
     },
     "autoload": {
         "psr-4": {
