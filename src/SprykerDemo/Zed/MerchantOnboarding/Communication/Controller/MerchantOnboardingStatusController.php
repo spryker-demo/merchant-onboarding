@@ -55,22 +55,22 @@ class MerchantOnboardingStatusController extends AbstractController
         $newMerchantStatus = $request->query->get(static::PARAM_MERCHANT_STATUS);
 
         if (!$idMerchant || !$newMerchantStatus) {
-            return $this->returnErrorRedirect($request);
+            return $this->redirectResponse($request);
         }
 
         $merchantCriteriaTransfer = new MerchantCriteriaTransfer();
         $merchantCriteriaTransfer->setIdMerchant($idMerchant);
         $merchantTransfer = $this->getFactory()->getMerchantFacade()->findOne($merchantCriteriaTransfer);
         if (!$merchantTransfer) {
-            return $this->returnErrorRedirect($request);
+            return $this->redirectResponse($request->getRequestUri());
         }
 
-        $merchantTransfer->setStatus($newMerchantStatus);
+        $merchantTransfer->setStatus((string)$newMerchantStatus);
 
         $merchantResponseTransfer = $this->getFactory()->getMerchantFacade()->updateMerchant($merchantTransfer);
 
         if (!$merchantResponseTransfer->getIsSuccess()) {
-            return $this->returnErrorRedirect($request);
+            return $this->redirectResponse($request);
         }
 
         $this->addSuccessMessage(static::MESSAGE_SUCCESS_MERCHANT_STATUS_UPDATE);

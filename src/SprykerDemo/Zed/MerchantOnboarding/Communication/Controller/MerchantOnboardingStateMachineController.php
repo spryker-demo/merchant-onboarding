@@ -47,8 +47,7 @@ class MerchantOnboardingStateMachineController extends AbstractController
 
         $this->getFactory()->getStateMachineFacade()->triggerEvent(
             $event,
-            (new StateMachineItemTransfer())
-                ->setIdentifier($idMerchant)
+            (new StateMachineItemTransfer())->setIdentifier($idMerchant)
                 ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ON_BOARDING_STATE_PROCESS_NAME)
                 ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_STATE_MACHINE_NAME)
                 ->setIdItemState($idStateMachineState),

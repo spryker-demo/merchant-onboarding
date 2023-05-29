@@ -19,7 +19,7 @@ class MerchantStateMachineExpanderPlugin extends AbstractPlugin implements Merch
 {
     /**
      * {@inheritDoc}
-     * - Expands merchant by merchant profile data.
+     * - Expands merchant by state machine data.
      *
      * @api
      *

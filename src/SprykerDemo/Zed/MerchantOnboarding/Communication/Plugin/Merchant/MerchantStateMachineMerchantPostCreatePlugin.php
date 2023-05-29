@@ -15,15 +15,13 @@ use Spryker\Zed\MerchantExtension\Dependency\Plugin\MerchantPostCreatePluginInte
 use SprykerDemo\Zed\MerchantOnboardingStateMachine\MerchantOnboardingStateMachineConfig;
 
 /**
- * @method \SprykerDemo\Zed\MerchantOnboarding\Communication\MerchantOnboardingCommunicationFactory getFacade()
+ * @method \SprykerDemo\Zed\MerchantOnboarding\Communication\MerchantOnboardingCommunicationFactory getFactory()
  */
 class MerchantStateMachineMerchantPostCreatePlugin extends AbstractPlugin implements MerchantPostCreatePluginInterface
 {
     /**
      * {@inheritDoc}
-     * - Creates ACL group for provided merchant.
-     * - Creates ACL role, ACL rules, ACL entity rules for provided merchant.
-     * - Creates ACL entity segment for provided merchant.
+     * - Adds state machine process and item for provided merchant.
      * - Returns `MerchantResponse` transfer object.
      *
      * @api
