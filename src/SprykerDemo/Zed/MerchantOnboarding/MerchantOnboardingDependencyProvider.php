@@ -29,7 +29,6 @@ class MerchantOnboardingDependencyProvider extends AbstractBundleDependencyProvi
      */
     public function provideCommunicationLayerDependencies(Container $container): Container
     {
-        $container = parent::provideCommunicationLayerDependencies($container);
         $container = $this->addStateMachineFacade($container);
         $container = $this->addMerchantFacade($container);
 

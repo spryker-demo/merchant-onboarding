@@ -17,7 +17,7 @@ use SprykerDemo\Zed\MerchantOnboardingStateMachine\MerchantOnboardingStateMachin
 /**
  * @method \SprykerDemo\Zed\MerchantOnboarding\Communication\MerchantOnboardingCommunicationFactory getFactory()
  */
-class MerchantStateMachineMerchantPostCreatePlugin extends AbstractPlugin implements MerchantPostCreatePluginInterface
+class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements MerchantPostCreatePluginInterface
 {
     /**
      * {@inheritDoc}
@@ -34,7 +34,7 @@ class MerchantStateMachineMerchantPostCreatePlugin extends AbstractPlugin implem
     {
         $merchantTransfer->setFkStateMachineProcess(
             $this->getFactory()->getStateMachineFacade()->getStateMachineProcessId(
-                (new StateMachineProcessTransfer())->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ON_BOARDING_STATE_PROCESS_NAME),
+                (new StateMachineProcessTransfer())->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME),
             ),
         );
         $merchantResponseTransfer = $this->getFactory()
@@ -42,8 +42,8 @@ class MerchantStateMachineMerchantPostCreatePlugin extends AbstractPlugin implem
             ->updateMerchant($merchantTransfer);
 
         $stateMachineProcessTransfer = (new StateMachineProcessTransfer())
-            ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ON_BOARDING_STATE_PROCESS_NAME)
-            ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_STATE_MACHINE_NAME);
+            ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)
+            ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
 
         $this->getFactory()->getStateMachineFacade()->triggerForNewStateMachineItem(
             $stateMachineProcessTransfer,

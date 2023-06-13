@@ -20,17 +20,17 @@ class MerchantOnboardingStatusController extends AbstractController
     /**
      * @var string
      */
-    public const URL_PARAM_REDIRECT_URL = 'redirect-url';
+    protected const URL_PARAM_REDIRECT_URL = 'redirect-url';
 
     /**
      * @var string
      */
-    public const PARAM_ID_MERCHANT = 'id-merchant';
+    protected const PARAM_ID_MERCHANT = 'id-merchant';
 
     /**
      * @var string
      */
-    public const PARAM_MERCHANT_STATUS = 'merchant-status';
+    protected const PARAM_MERCHANT_STATUS = 'merchant-status';
 
     /**
      * @var string

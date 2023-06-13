@@ -6,11 +6,6 @@
         <foreign-key name="spy_merchant-fk_state_machine_item_state" foreignTable="spy_state_machine_item_state" phpName="StateMachineItemState">
             <reference local="fk_state_machine_item_state" foreign="id_state_machine_item_state"/>
         </foreign-key>
-        <behavior name="event">
-            <parameter name="spy_merchant-name" column="name"/>
-            <parameter name="spy_merchant-is_active" column="is_active"/>
-        </behavior>
-        <behavior name="\Spryker\Zed\AclEntity\Persistence\Propel\Behavior\AclEntityBehavior"/>
     </table>
 
 </database>
