@@ -32,23 +32,26 @@ class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements Mer
      */
     public function postCreate(MerchantTransfer $merchantTransfer): MerchantResponseTransfer
     {
-        $merchantTransfer->setFkStateMachineProcess(
-            $this->getFactory()->getStateMachineFacade()->getStateMachineProcessId(
+        $merchantResponseTransfer = new MerchantResponseTransfer();
+        $merchantResponseTransfer->setIsSuccess(true);
+
+        if ($this->getFactory()->getStateMachineFacade()->stateMachineExists(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)) {
+            $merchantTransfer->setFkStateMachineProcess($this->getFactory()->getStateMachineFacade()->getStateMachineProcessId(
                 (new StateMachineProcessTransfer())->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME),
-            ),
-        );
-        $merchantResponseTransfer = $this->getFactory()
-            ->getMerchantFacade()
-            ->updateMerchant($merchantTransfer);
+            ));
+            $merchantResponseTransfer = $this->getFactory()
+                ->getMerchantFacade()
+                ->updateMerchant($merchantTransfer);
 
-        $stateMachineProcessTransfer = (new StateMachineProcessTransfer())
-            ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)
-            ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
+            $stateMachineProcessTransfer = (new StateMachineProcessTransfer())
+                ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)
+                ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
 
-        $this->getFactory()->getStateMachineFacade()->triggerForNewStateMachineItem(
-            $stateMachineProcessTransfer,
-            $merchantTransfer->getIdMerchantOrFail(),
-        );
+            $this->getFactory()->getStateMachineFacade()->triggerForNewStateMachineItem(
+                $stateMachineProcessTransfer,
+                $merchantTransfer->getIdMerchantOrFail(),
+            );
+        }
 
         return $merchantResponseTransfer;
     }
