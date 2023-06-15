@@ -35,7 +35,7 @@ class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements Mer
         $merchantResponseTransfer = new MerchantResponseTransfer();
         $merchantResponseTransfer->setIsSuccess(true);
 
-        if ($this->getFactory()->getStateMachineFacade()->stateMachineExists(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)) {
+        if (!$merchantTransfer->getStateMachineItem() && $this->getFactory()->getStateMachineFacade()->stateMachineExists(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME)) {
             $merchantTransfer->setFkStateMachineProcess($this->getFactory()->getStateMachineFacade()->getStateMachineProcessId(
                 (new StateMachineProcessTransfer())->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME),
             ));
