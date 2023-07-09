@@ -1,0 +1,19 @@
+    {% if stateMachineItemTransfer is empty %}
+        {%  for applicableMerchantStatus in applicableMerchantStatuses %}
+            {% if applicableMerchantStatus == 'denied' %}
+                {{ removeActionButton(url('/merchant-gui/merchant-status', {'status': applicableMerchantStatus, 'id-merchant': idMerchant}), (applicableMerchantStatus ~ '_button') | trans, {'icon':'<i class="fa fa-key"></i> '}) }}
+            {% else %}
+                {{ createActionButton(url('/merchant-gui/merchant-status', {'status': applicableMerchantStatus, 'id-merchant': idMerchant}), (applicableMerchantStatus ~ '_button') | trans, {'icon':'<i class="fa fa-key"></i> '}) }}
+            {%  endif %}
+        {%  endfor %}
+    {% else %}
+        <a href="{{ url('/state-machine/graph/draw', {'process': stateMachineItemTransfer.processName, 'state': stateMachineItemTransfer.stateName, 'state-machine': stateMachineItemTransfer.stateMachineName, 'highlight-state': stateMachineItemTransfer.stateName}) }}" target="_blank">Current State: {{ stateMachineItemTransfer.stateName }}</a>
+        {% for stateMachineManualEvent in stateMachineManualEvents%}
+            {{ createActionButton(url('/merchant-onboarding/merchant-onboarding-state-machine/trigger-event', {'event': stateMachineManualEvent, 'id-merchant': idMerchant, 'id_state_machine_state':stateMachineItemTransfer.idItemState  }), (stateMachineManualEvent), {'icon':'<i class="fa fa-key"></i> '}) }}
+        {% endfor %}
+    {% endif %}
+    {% if detectedScore is not empty %}
+        <br/>
+        <br/>
+        <div>Merchant Detected Score: {{ detectedScore }}</div>
+    {% endif %}
