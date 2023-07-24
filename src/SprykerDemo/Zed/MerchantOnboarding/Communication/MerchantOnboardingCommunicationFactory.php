@@ -11,6 +11,8 @@ use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use Spryker\Zed\Merchant\Business\MerchantFacadeInterface;
 use Spryker\Zed\StateMachine\Business\StateMachineFacadeInterface;
 use Spryker\Zed\StateMachine\Persistence\StateMachineQueryContainerInterface;
+use SprykerDemo\Zed\MerchantOnboarding\Business\StateMachine\Finder;
+use SprykerDemo\Zed\MerchantOnboarding\Business\StateMachine\FinderInterface;
 use SprykerDemo\Zed\MerchantOnboarding\MerchantOnboardingDependencyProvider;
 
 class MerchantOnboardingCommunicationFactory extends AbstractCommunicationFactory
@@ -37,5 +39,15 @@ class MerchantOnboardingCommunicationFactory extends AbstractCommunicationFactor
     public function getMerchantFacade(): MerchantFacadeInterface
     {
         return $this->getProvidedDependency(MerchantOnboardingDependencyProvider::FACADE_MERCHANT);
+    }
+
+    /**
+     * @return \SprykerDemo\Zed\MerchantOnboarding\Business\StateMachine\FinderInterface
+     */
+    public function createStateMachineFinder(): FinderInterface
+    {
+        return new Finder(
+            $this->getStateMachineQueryContainer(),
+        );
     }
 }

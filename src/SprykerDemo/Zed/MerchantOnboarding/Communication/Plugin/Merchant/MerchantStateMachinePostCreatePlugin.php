@@ -34,15 +34,10 @@ class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements Mer
     {
         $merchantResponseTransfer = new MerchantResponseTransfer();
         $merchantResponseTransfer->setIsSuccess(true);
+        $idStateMachineProcess = $this->getIdStateMachineProcess();
 
-        $stateMachineProcessEntity = $this->getFactory()->getStateMachineQueryContainer()
-            ->queryProcessByStateMachineAndProcessName(
-                MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME,
-                MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME,
-            )->findOne();
-
-        if ($stateMachineProcessEntity) {
-            $merchantTransfer->setFkStateMachineProcess($stateMachineProcessEntity->getIdStateMachineProcess());
+        if ($idStateMachineProcess) {
+            $merchantTransfer->setFkStateMachineProcess($idStateMachineProcess);
             $merchantResponseTransfer = $this->getFactory()
                 ->getMerchantFacade()
                 ->updateMerchant($merchantTransfer);
@@ -58,5 +53,17 @@ class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements Mer
         }
 
         return $merchantResponseTransfer;
+    }
+
+    /**
+     * @return int|null
+     */
+    protected function getIdStateMachineProcess(): ?int
+    {
+        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME);
+        $stateMachineProcessTransfer->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
+
+        return $this->getFactory()->createStateMachineFinder()->findStateMachineProcessId($stateMachineProcessTransfer);
     }
 }
