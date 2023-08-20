@@ -5,15 +5,13 @@
     "license": "proprietary",
     "require": {
         "php": ">=8.0",
-        "spryker-demo/merchant-onboarding-state-machine": "* as 1.0.0",
         "spryker/kernel": "^3.70.0",
         "spryker/merchant": "^3.5.1",
         "spryker/merchant-extension": "^1.1.0",
-        "spryker/merchant-gui": "^3.9.0",
-        "spryker/state-machine": "^2.16.1",
-        "spryker/symfony": "^3.11.1"
+        "spryker/state-machine": "^2.16.1"
     },
     "require-dev": {
+        "spryker-demo/merchant-onboarding-state-machine": "*",
         "spryker/code-sniffer": "^0.17.18"
     },
     "autoload": {
@@ -29,5 +27,8 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "suggest": {
+        "spryker-demo/merchant-onboarding-state-machine": "ADD SUGGEST DESCRIPTION"
     }
 }
