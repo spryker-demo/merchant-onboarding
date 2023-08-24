@@ -1,6 +1,6 @@
 # Merchant Onboarding.
 
-{{MerchantOnboarding module is responsible for extending merchant with merchant onboarding state machine.}}
+MerchantOnboarding module is responsible for extending merchant with merchant onboarding state machine.
 
 ## Installation
 

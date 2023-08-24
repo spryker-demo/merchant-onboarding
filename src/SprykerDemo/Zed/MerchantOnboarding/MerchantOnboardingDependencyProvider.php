@@ -20,12 +20,20 @@ class MerchantOnboardingDependencyProvider extends AbstractBundleDependencyProvi
     /**
      * @var string
      */
-    public const QUERY_CONTAINER_STATE_MACHINE = 'QUERY_CONTAINER_STATE_MACHINE';
+    public const FACADE_MERCHANT = 'FACADE_MERCHANT';
 
     /**
-     * @var string
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
      */
-    public const FACADE_MERCHANT = 'FACADE_MERCHANT';
+    public function provideBusinessLayerDependencies(Container $container): Container
+    {
+        $container = $this->addStateMachineFacade($container);
+        $container = $this->addMerchantFacade($container);
+
+        return $container;
+    }
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -35,8 +43,6 @@ class MerchantOnboardingDependencyProvider extends AbstractBundleDependencyProvi
     public function provideCommunicationLayerDependencies(Container $container): Container
     {
         $container = $this->addStateMachineFacade($container);
-        $container = $this->addStateMachineQueryContainer($container);
-        $container = $this->addMerchantFacade($container);
 
         return $container;
     }
@@ -50,20 +56,6 @@ class MerchantOnboardingDependencyProvider extends AbstractBundleDependencyProvi
     {
         $container->set(static::FACADE_STATE_MACHINE, function (Container $container) {
             return $container->getLocator()->stateMachine()->facade();
-        });
-
-        return $container;
-    }
-
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Kernel\Container
-     */
-    protected function addStateMachineQueryContainer(Container $container): Container
-    {
-        $container->set(static::QUERY_CONTAINER_STATE_MACHINE, function (Container $container) {
-            return $container->getLocator()->stateMachine()->queryContainer();
         });
 
         return $container;

@@ -9,13 +9,11 @@ namespace SprykerDemo\Zed\MerchantOnboarding\Communication\Plugin\Merchant;
 
 use Generated\Shared\Transfer\MerchantResponseTransfer;
 use Generated\Shared\Transfer\MerchantTransfer;
-use Generated\Shared\Transfer\StateMachineProcessTransfer;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 use Spryker\Zed\MerchantExtension\Dependency\Plugin\MerchantPostCreatePluginInterface;
-use SprykerDemo\Zed\MerchantOnboardingStateMachine\MerchantOnboardingStateMachineConfig;
 
 /**
- * @method \SprykerDemo\Zed\MerchantOnboarding\Communication\MerchantOnboardingCommunicationFactory getFactory()
+ * @method \SprykerDemo\Zed\MerchantOnboarding\Business\MerchantOnboardingFacadeInterface getFacade()()
  */
 class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements MerchantPostCreatePluginInterface
 {
@@ -32,38 +30,6 @@ class MerchantStateMachinePostCreatePlugin extends AbstractPlugin implements Mer
      */
     public function postCreate(MerchantTransfer $merchantTransfer): MerchantResponseTransfer
     {
-        $merchantResponseTransfer = new MerchantResponseTransfer();
-        $merchantResponseTransfer->setIsSuccess(true);
-        $idStateMachineProcess = $this->getIdStateMachineProcess();
-
-        if ($idStateMachineProcess) {
-            $merchantTransfer->setFkStateMachineProcess($idStateMachineProcess);
-            $merchantResponseTransfer = $this->getFactory()
-                ->getMerchantFacade()
-                ->updateMerchant($merchantTransfer);
-
-            $stateMachineProcessTransfer = (new StateMachineProcessTransfer())
-                ->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME)
-                ->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
-
-            $this->getFactory()->getStateMachineFacade()->triggerForNewStateMachineItem(
-                $stateMachineProcessTransfer,
-                $merchantTransfer->getIdMerchantOrFail(),
-            );
-        }
-
-        return $merchantResponseTransfer;
-    }
-
-    /**
-     * @return int|null
-     */
-    protected function getIdStateMachineProcess(): ?int
-    {
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
-        $stateMachineProcessTransfer->setProcessName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_PROCESS_NAME);
-        $stateMachineProcessTransfer->setStateMachineName(MerchantOnboardingStateMachineConfig::MERCHANT_ONBOARDING_STATE_MACHINE_NAME);
-
-        return $this->getFactory()->createStateMachineFinder()->findStateMachineProcessId($stateMachineProcessTransfer);
+        return $this->getFacade()->updateMerchantWithOnboardingStateMachine($merchantTransfer);
     }
 }

@@ -29,11 +29,11 @@ class MerchantStateMachineExpanderPlugin extends AbstractPlugin implements Merch
      */
     public function expand(MerchantTransfer $merchantTransfer): MerchantTransfer
     {
-        if ($merchantTransfer->getFkStateMachineItemState()) {
+        if ($merchantTransfer->getIdStateMachineItemState()) {
             $stateMachineItemTransfer = $this->getFactory()
                 ->getStateMachineFacade()->getProcessedStateMachineItemTransfer(
                     (new StateMachineItemTransfer())->setIdentifier($merchantTransfer->getIdMerchant())
-                        ->setIdItemState($merchantTransfer->getFkStateMachineItemState()),
+                        ->setIdItemState($merchantTransfer->getIdStateMachineItemState()),
                 );
 
             if ($stateMachineItemTransfer !== null) {
