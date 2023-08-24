@@ -68,7 +68,7 @@ class MerchantUpdater implements MerchantUpdaterInterface
         $idStateMachineProcess = $this->getIdStateMachineProcess($stateMachineProcessTransfer);
 
         if ($idStateMachineProcess) {
-            $merchantTransfer->setFkStateMachineProcess($idStateMachineProcess);
+            $merchantTransfer->setfkStateMachineProcess($idStateMachineProcess);
             $merchantResponseTransfer = $this->merchantFacade
                 ->updateMerchant($merchantTransfer);
 
