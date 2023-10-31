@@ -1,6 +1,6 @@
-# Merchant Onboarding.
+# Merchant Onboarding module.
 
-MerchantOnboarding module is responsible for extending merchant with merchant onboarding state machine.
+MerchantOnboarding module introduces a new state machine for merchant onboarding process.
 
 ## Installation
 

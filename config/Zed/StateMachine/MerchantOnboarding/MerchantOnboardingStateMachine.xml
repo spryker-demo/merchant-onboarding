@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<statemachine
+    xmlns="spryker:state-machine-01"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="spryker:state-machine-01 http://static.spryker.com/state-machine-01.xsd"
+>
+
+    <process name="MerchantOnboardingStateMachine" main="true">
+
+        <states>
+            <state name="registered"/>
+            <state name="detected"/>
+            <state name="approved"/>
+            <state name="denied"/>
+            <state name="In onboarding"/>
+            <state name="Product or Offer created"/>
+            <state name="Payment and Service Agreement Completed"/>
+            <state name="Order Testing Completed"/>
+            <state name="Onboarding completed"/>
+            <state name="manual validation needed"/>
+        </states>
+
+        <transitions>
+            <transition happy="true" condition="MerchantOnboarding/IsDetected">
+                <source>registered</source>
+                <target>detected</target>
+                <event>initiate</event>
+            </transition>
+            <transition>
+                <source>registered</source>
+                <target>manual validation needed</target>
+                <event>initiate</event>
+            </transition>
+            <transition>
+                <source>manual validation needed</source>
+                <target>approved</target>
+                <event>approve</event>
+            </transition>
+            <transition>
+                <source>manual validation needed</source>
+                <target>denied</target>
+                <event>deny</event>
+            </transition>
+            <transition>
+                <source>detected</source>
+                <target>approved</target>
+                <event>approve</event>
+            </transition>
+            <transition>
+                <source>approved</source>
+                <target>In onboarding</target>
+                <event>Start onboarding</event>
+            </transition>
+            <transition>
+                <source>In onboarding</source>
+                <target>Product or Offer created</target>
+                <event>Merchant Profile Completion</event>
+            </transition>
+            <transition>
+                <source>Product or Offer created</source>
+                <target>Payment and Service Agreement Completed</target>
+                <event>Payment and Service Agreement</event>
+            </transition>
+            <transition>
+                <source>Payment and Service Agreement Completed</source>
+                <target>Order Testing Completed</target>
+                <event>Order Testing</event>
+            </transition>
+            <transition>
+                <source>Order Testing Completed</source>
+                <target>Onboarding completed</target>
+                <event>Complete onboarding</event>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="initiate" onEnter="true" command="MerchantOnboarding/DetectMerchantScore"/>
+            <event name="approve" manual="true" command="MerchantOnboarding/ApproveMerchant"/>
+            <event name="deny" manual="true" command="MerchantOnboarding/DenyMerchant"/>
+            <event name="Start onboarding" manual="true"/>
+            <event name="Merchant Profile Completion" manual="true"/>
+            <event name="Product and offer creation" manual="true"/>
+            <event name="Payment and Service Agreement" manual="true"/>
+            <event name="Order Testing" manual="true"/>
+            <event name="Complete onboarding" manual="true"/>
+        </events>
+
+    </process>
+
+</statemachine>
