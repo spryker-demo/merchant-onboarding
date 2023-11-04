@@ -10,12 +10,15 @@ namespace SprykerDemo\Zed\MerchantOnboarding\Business\Updater;
 use Generated\Shared\Transfer\MerchantResponseTransfer;
 use Generated\Shared\Transfer\MerchantTransfer;
 use Generated\Shared\Transfer\StateMachineProcessTransfer;
+use Spryker\Zed\Kernel\Persistence\EntityManager\TransactionTrait;
 use Spryker\Zed\Merchant\Business\MerchantFacadeInterface;
 use Spryker\Zed\StateMachine\Business\StateMachineFacadeInterface;
 use SprykerDemo\Zed\MerchantOnboarding\MerchantOnboardingConfig;
 
 class StateMachineMerchantUpdater implements StateMachineMerchantUpdaterInterface
 {
+    use TransactionTrait;
+
     /**
      * @var \Spryker\Zed\StateMachine\Business\StateMachineFacadeInterface
      */
@@ -63,6 +66,19 @@ class StateMachineMerchantUpdater implements StateMachineMerchantUpdaterInterfac
     protected function updateMerchantWithStateMachineProcessId(MerchantTransfer $merchantTransfer, int $stateMachineProcessId): MerchantResponseTransfer
     {
         $merchantTransfer->setFkStateMachineProcess($stateMachineProcessId);
+
+        return $this->getTransactionHandler()->handleTransaction(function () use ($merchantTransfer) {
+            return $this->executeUpdateMerchantWithStateMachineProcessIdTransaction($merchantTransfer);
+        });
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\MerchantTransfer $merchantTransfer
+     *
+     * @return \Generated\Shared\Transfer\MerchantResponseTransfer
+     */
+    protected function executeUpdateMerchantWithStateMachineProcessIdTransaction(MerchantTransfer $merchantTransfer): MerchantResponseTransfer
+    {
         $merchantResponseTransfer = $this->merchantFacade
             ->updateMerchant($merchantTransfer);
 
