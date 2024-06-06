@@ -65,8 +65,6 @@ class StateMachineMerchantUpdater implements StateMachineMerchantUpdaterInterfac
      */
     protected function updateMerchantWithStateMachineProcessId(MerchantTransfer $merchantTransfer, int $stateMachineProcessId): MerchantResponseTransfer
     {
-        $merchantTransfer->setFkStateMachineProcess($stateMachineProcessId);
-
         return $this->getTransactionHandler()->handleTransaction(function () use ($merchantTransfer) {
             return $this->executeUpdateMerchantWithStateMachineProcessIdTransaction($merchantTransfer);
         });
