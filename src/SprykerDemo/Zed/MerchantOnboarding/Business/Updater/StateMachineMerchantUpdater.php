@@ -51,7 +51,7 @@ class StateMachineMerchantUpdater implements StateMachineMerchantUpdaterInterfac
         $stateMachineProcessId = $this->getIdStateMachineProcess();
 
         if ($stateMachineProcessId) {
-            return $this->updateMerchantWithStateMachineProcessId($merchantTransfer, $stateMachineProcessId);
+            return $this->updateMerchantWithStateMachineProcessId($merchantTransfer);
         }
 
         return (new MerchantResponseTransfer())->setIsSuccess(false);
@@ -59,11 +59,10 @@ class StateMachineMerchantUpdater implements StateMachineMerchantUpdaterInterfac
 
     /**
      * @param \Generated\Shared\Transfer\MerchantTransfer $merchantTransfer
-     * @param int $stateMachineProcessId
      *
      * @return \Generated\Shared\Transfer\MerchantResponseTransfer
      */
-    protected function updateMerchantWithStateMachineProcessId(MerchantTransfer $merchantTransfer, int $stateMachineProcessId): MerchantResponseTransfer
+    protected function updateMerchantWithStateMachineProcessId(MerchantTransfer $merchantTransfer): MerchantResponseTransfer
     {
         return $this->getTransactionHandler()->handleTransaction(function () use ($merchantTransfer) {
             return $this->executeUpdateMerchantWithStateMachineProcessIdTransaction($merchantTransfer);
