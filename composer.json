@@ -4,7 +4,7 @@
     "description": "Merchant Onboarding module",
     "license": "proprietary",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.2",
         "spryker/kernel": "^3.70.0",
         "spryker/merchant": "^3.5.1",
         "spryker/merchant-extension": "^1.2.0",
